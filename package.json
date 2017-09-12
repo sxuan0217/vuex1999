@@ -7,7 +7,8 @@
   "scripts": {
     "dev": "node build/dev-server.js",
     "start": "node build/dev-server.js",
-    "build": "node build/build.js"
+    "build": "node build/build.js",
+    "deploy": "node ./node_modules/vue-gh-pages/index.js"    
   },
   "dependencies": {
     "axios": "^0.16.2",
@@ -60,6 +61,5 @@
     "> 1%",
     "last 2 versions",
     "not ie <= 8"
-  ],
-  "deploy": "node ./node_modules/vue-gh-pages/index.js"
+  ]
 }
