@@ -5,15 +5,28 @@
         v-model="Zip" 
         :CleanZipArray='ZipArray'></ZipSelect>
     </div>
-        <GmapMap
+      <!-- 為什麼Gmap要用到v-if呢? -->
+      <!-- 因為loading會在獲取資料後才會變成false -->
+      <!-- 這之前是沒有資料的 -->
+      <!-- 沒有資料center拿到的就會是undefined -->
+      <!-- 所以需要再loading後再渲染Gmap -->
+      <!-- 這時center就會有資料了 -->
+      <GmapMap
+      v-if='!loading' 
       :center="{lat:+isCenterMarkerFilterArray[0].Lat_, 
                 lng:+isCenterMarkerFilterArray[0].Lng_}"
       :zoom="13"
       map-type-id="roadmap"
       style="width: 100%; height: 300px"
       class='mb-3'>
-      <gmap-info-window :options="infoOptions" :position="infoWindowPos" :opened="infoWinOpen" @closeclick="infoWinOpen=false">
-        <info-window :Information='infoContent'></info-window>
+      <gmap-info-window 
+        :options="infoOptions" 
+        :position="infoWindowPos" 
+        :opened="infoWinOpen" 
+        @closeclick="infoWinOpen=false">
+        <info-window 
+        :Information='infoContent'>
+        </info-window>
       </gmap-info-window>
       <GmapMarker
         v-if='item.Lat_ !== "" && item.Lng_ !== ""'
@@ -42,6 +55,7 @@ import { mapGetters } from 'vuex'
 import Card from './Card'
 import ZipSelect from './ZipSelect'
 import InfoWindow from './InfoWindow'
+
 export default {
   name: 'MainPage',
   components: {
@@ -52,7 +66,7 @@ export default {
   data() {
     return {
       Zip: '', // 選擇的行政區
-      infoContent: '', // 資訊欄內容
+      infoContent: {}, // 資訊欄內容
       infoWindowPos: null, // 資訊欄定位
       infoWinOpen: false, // 資訊欄開啟
       currentMidx: null, // marker 的 index
@@ -66,7 +80,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      listData: 'getlistData'
+      listData: 'getlistData',
+      loading:'getLoading'
     }),
     ZipArray () { //去重並回傳行政區
       let isDirtyZipArray = this.listData.map(obj => obj.ZipName_);
@@ -87,12 +102,11 @@ export default {
   },
   methods: {
     toggleInfoWindow: function(marker, idx) {
-      let position = {
+      let position = { // 因為資料的經緯度不是傳物件，所以在這裡把它組成插件所需要的資料格式
         lat: +marker.Lat_,
         lng: +marker.Lng_
       }
       this.infoWindowPos = position;
-      console.log(marker)
       this.infoContent = marker;
       //如果是相同marker id 等於關閉
       if (this.currentMidx == idx) {
