@@ -6,8 +6,11 @@ import router from './router'
 import Vuex from 'vuex'
 import store from './store'
 import axios from 'axios'
+import * as VueGoogleMaps from 'vue2-google-maps'
+import VueGoogleConfig from './assets/js/vue-google.config'
 Vue.use(Vuex)
 Vue.config.productionTip = false
+Vue.use(VueGoogleMaps,VueGoogleConfig)
 
 /* eslint-disable no-new */
 new Vue({
