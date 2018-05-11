@@ -2,7 +2,7 @@
   <div class="container">
     <div>
       <ZipSelect
-        v-model="Zip" 
+        v-model="Zip"
         :CleanZipArray='ZipArray'></ZipSelect>
     </div>
       <!-- 為什麼Gmap要用到v-if呢? -->
@@ -101,31 +101,29 @@ export default {
     }
   },
   methods: {
-    toggleInfoWindow: function(marker, idx) {
-      let position = { // 因為資料的經緯度不是傳物件，所以在這裡把它組成插件所需要的資料格式
+    toggleInfoWindow (marker, idx) {
+      const position = { // 因為資料的經緯度不是傳物件，所以在這裡把它組成插件所需要的資料格式
         lat: +marker.Lat_,
-        lng: +marker.Lng_
-      }
+        lng: +marker.Lng_,
+      };
       this.infoWindowPos = position;
       this.infoContent = marker;
-      //如果是相同marker id 等於關閉
-      if (this.currentMidx == idx) {
+      // 如果是相同marker id 等於關閉
+      if (this.currentMidx === idx) {
         this.infoWinOpen = !this.infoWinOpen;
-      }
-      // 如果是不同marker id 則開啟
-      else {
+      } else {
         this.infoWinOpen = true;
         this.currentMidx = idx;
       }
-    }
+    },
   },
   created() {
-    this.$store.dispatch('actionsAJAX')
+    this.$store.dispatch('actionsAJAX');
   },
   mounted() {
 
-  }
-}
+  },
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

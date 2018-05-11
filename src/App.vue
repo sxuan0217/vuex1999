@@ -12,14 +12,15 @@
 </template>
 
 <script>
+
 import { mapGetters } from 'vuex';
 
 export default {
-  name: 'app',
+  name: 'App',
   computed:mapGetters({
-    loading:'getLoading'
-  })
-}
+  loading:'getLoading'
+})
+};
 </script>
 
 <style lang='scss' scoped>

@@ -17,11 +17,11 @@ export default {
   name: 'InfoWindow',
   props: {
     Information: {
-      type: Object
-    }
-  }
+      type: Object,
+    },
+  },
 
-}
+};
 </script>
 
 <style>
